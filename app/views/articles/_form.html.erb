@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Article</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles can be added here if needed */
+        body {
+            padding-top: 60px; /* Adjust as per your navbar height */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Dispatch Track India Pvt Ltd</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <%= link_to 'Home', root_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item active">
+                        <%= link_to 'Articles', articles_path, class: 'nav-link' %>
+                    </li>
+                    <!-- Add more navbar items as needed -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <% if @article.errors.any? %>
+            <div class="alert alert-danger">
+                <h2>Failed to add due to below errors</h2>
+                <ul>
+                    <% @article.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
+
+        <%= form_with model: @article, local: true do |f| %>
+            <table class="table table-bordered">
+                <tr>
+                    <td>Article Title</td>
+                    <td><%= f.text_field :title, class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <td>Article Description</td>
+                    <td><%= f.text_area :description, class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <td>Article Author</td>
+                    <td><%= f.text_field :author, class: 'form-control' %></td>
+                </tr>
+            </table>
+            <%= f.submit 'Create', class: 'btn btn-primary' %>
+        <% end %>
+        
+        <%= link_to 'Back to Articles List', articles_path, class: 'btn btn-secondary mt-3' %>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

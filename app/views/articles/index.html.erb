@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Articles</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles can be added here if needed */
+        body {
+            padding-top: 60px; /* Adjust as per your navbar height */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Dispatch Track India Pvt Ltd</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <%= link_to 'Home', root_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item active">
+                        <%= link_to 'Articles', articles_path, class: 'nav-link' %>
+                    </li>
+                    <!-- Add more navbar items as needed -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <center>
+            <h1>List of Articles</h1>
+            <table class="table table-bordered mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Author</th>
+                        <th colspan="3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @articles.each do |a| %>
+                    <tr>
+                        <td><%= a.id %></td>
+                        <td><%= a.title %></td>
+                        <td><%= a.description %></td>
+                        <td><%= a.author %></td>
+                        <td><%= link_to 'Show', article_path(a), class: 'btn btn-sm btn-primary' %></td>
+                        <td><%= link_to 'Edit', edit_article_path(a), class: 'btn btn-sm btn-warning' %></td>
+                        <td>
+                            <%= link_to 'Destroy', article_path(a), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+                        </td>
+                    </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <div class="container">
+        <div class="d-flex justify-content-around mt-5">
+            <h5>
+                <%= link_to 'Add New Article', new_article_path, class: 'btn btn-primary' %>
+            </h5>
+            <h5>
+                <%= link_to 'Go Back to Home', root_path, class: 'btn btn-secondary' %>
+            </h5>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
