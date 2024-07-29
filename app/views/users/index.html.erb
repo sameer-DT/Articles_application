@@ -1,0 +1,51 @@
+<h1 class="text-center mt-4">Articles by Bloggers</h1>
+<div class="flickr_pagination">
+  <%= will_paginate @users, :container => false %>
+</div>
+<div id="page-content">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-center">
+      <% @users.each do |user| %>
+        <div class="card text-center shadow mb-5 bg-white rounded m-3" style="width: 18rem;">
+          <div class="card-header font-italic">
+            <%= link_to user.username, user %>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to gravatar_for(user, size: 150), user, class: "text-success" %></h5>
+            <p class="card-text"><%= pluralize(user.articles.count, "article") %></p>
+            <div class="d-flex justify-content-around">
+              <%= link_to "View", user_path(user), class: "btn btn-outline-success" %>
+              <% if logged_in? %>
+
+                <% if user == current_user %>
+
+                  <%= link_to "Edit profile", edit_user_path(user), class: "btn btn-outline-info" %>
+
+                <% end %>
+
+                <% if current_user.admin? %>
+
+                  <%= link_to "Delete user", user_path(user), class: "btn btn-outline-danger", method: :delete,data: {confirm: "Are you sure you want to delete the user account and all associated articles?"} %>
+                
+                <% end %>
+            
+            <% end %>
+
+            </div>
+          </div>
+          <div class="card-footer text-muted">
+            <small>Joined <%= time_ago_in_words(user.created_at) %> ago</small>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="flickr_pagination mb-4">
+  <%= will_paginate @articles, :container => false %>
+  </div>
+    <div class="d-flex justify-content-around mt-5">
+      <h5>
+        <%= link_to 'Go Back to Home', root_path, class: 'btn btn-secondary' %>
+      </h5>
+    </div>
+  </div>
+</div>

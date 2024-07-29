@@ -1,61 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Article</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles can be added here if needed */
-        body {
-            padding-top: 60px; /* Adjust as per your navbar height */
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Dispatch Track India Pvt Ltd</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <%= link_to 'Home', root_path, class: 'nav-link' %>
-                    </li>
-                    <li class="nav-item active">
-                        <%= link_to 'Articles', articles_path, class: 'nav-link' %>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<div id="page-content">
 
-    <div class="container mt-5">
-        <center>
-            <h1>Showing the Article</h1>
-        </center>
-        
-        <p>
-            <strong>Title:</strong>
-            <%= @article.title %>
-        </p>
-        <br>
-        <p>
-            <strong>Description:</strong>
-            <%= @article.description %>
-        </p>
-        <br>
-        <p>
-            <strong>Author:</strong>
-            <%= @article.author %>
-        </p>
-        
-        <%= link_to 'Back to Articles List', articles_path, class: 'btn btn-secondary mt-3' %>
-        <%= link_to 'Go Back to Home', root_path, class: 'btn btn-secondary mt-3' %>
+  <h2 class="text-center mt-4"><%= @article.title %></h2>
+
+  <div class="container">
+
+    <div class="row justify-content-md-center">
+
+      <div class="col-8 mt-4">
+
+        <div class="card text-center shadow mb-5 bg-white rounded">
+
+          <div class="card-header font-italic">
+            <%=@article.user.username if @article.user%>
+            <%= link_to gravatar_for(@article.user), user_path(@article.user)%>
+          </div>
+
+          <div class="card-body">
+
+            <div class="card-text text-left"><%= simple_format(@article.description) %></div>
+
+            <% if logged_in? && (@article.user==current_user || current_user.admin?)%>
+
+              <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-info" %>
+
+              <%= link_to 'Delete', article_path(@article), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+
+            <% end %>
+
+          </div>
+
+          <div class="card-footer text-muted">
+
+            <small>Created <%= time_ago_in_words(@article.created_at) %> ago, 
+
+            edited <%= time_ago_in_words(@article.updated_at) %> ago</small>
+
+          </div>
+
+        </div>
+
+      </div>
+       <div class="d-flex justify-content-center mt-5">
+        <% if logged_in? && @article.user==current_user%>
+        <%= link_to 'Back to My Articles', user_path(current_user), class: 'btn btn-primary' %>
+        <% else %>
+        <%= link_to 'Back to Articles', articles_path, class: 'btn btn-primary' %>
+        <% end %>
+      </h5>
     </div>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </div>
+
+  </div>
+
+</div>
